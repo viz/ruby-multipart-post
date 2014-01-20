@@ -14,7 +14,7 @@ module Stream
       total
     end
   
-    def read (how_much)
+    def read (how_much, outbuf = nil)
       return nil if @part_no >= @parts.size
   
       how_much_current_part = @parts[@part_no].size - @part_offset
@@ -39,7 +39,11 @@ module Stream
         end
       else
         @part_offset += how_much_current_part
-        current_part
+        unless outbuf.nil? then 
+          outbuf.replace(current_part)
+          outbuf
+        else 
+          current_part
       end
     end
   end
